@@ -1,0 +1,26 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  config.vm.box = "bento/ubuntu-22.04"
+  config.vm.hostname = "vagrant-test"
+  config.vm.box_check_update = false
+  config.vm.provider "virtualbox" do |vb|
+    vb.name = "vagrant-test"
+    vb.memory = "1024"
+    vb.cpus = 1
+  end
+
+  # SYNC LOCAL FOLDER
+
+  config.vm.synced_folder(".", "/vagrant",
+    :owner => "vagrant",
+    :group => "vagrant",
+    :mount_options => ['dmode=777','fmode=777']
+  )
+
+  config.vm.synced_folder "/home/rockemsockem/.secrets/test", "/home/vagrant/.secrets/test", disabled: false
+
+end
